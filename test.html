@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Brain.js</title>
+</head>
+<body>
+	 <script src="https://unpkg.com/brain.js@1.2.6/browser.min.js"></script>
+	<form id=form1>
+		Enter 1: <input name="n1" type="text" size="20"><br><br>
+		Enter 2: <input name="n2" type="text" size="20"><br><br>
+		Enter 3: <input name="n3" type="text" size="20"><br>
+	</form>
+	<button onclick="outputname()">submit</button>
+<script>
+	function outputname() {
+		var x,y,a,e,c,d;
+		x=document.getElementById('form1');
+		y=parseFloat(x.elements["n1"].value);
+		a=document.getElementById('form1');
+		e=parseFloat(a.elements["n2"].value);
+		c=document.getElementById('form1');
+		d=parseFloat(c.elements["n3"].value);
+
+		document.getElementById("demo").innerHTML+=y;
+	}
+const brain = require("./node_modules/brain.js")
+
+const network = new brain.NeuralNetwork()
+
+network.train([
+	{ input: { r: 0.01, g: 0.02 , b: 0.03 }, output: { Fever : 1} },
+	{ input: { r: 0.07, g: 0.06, b: 0.05 }, output: { Flu : 2} },
+	{ input: { r:0.33, g: 0.24, b: 0.29 }, output: { dark: 1} },
+])
+
+const result = network.run({r: 'y', g: 'e', b: 'd'})
+console.log(result);
+
+</script>
+<p id="demo"></p>
+</body>
+</html>

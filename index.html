@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Document</title>
+        
+        <style>
+                
+                #example {
+                    justify-items:center;
+                    align-items: center;
+                    padding: 20%;
+                    padding-left: 24%;
+                    font-size: 3rem;
+                }
+                .Txt{
+                    padding: 4%;
+                }     
+        </style>
+    </head>
+    <body>
+        <input type="color" value="#ff0000"/>
+        <div id="example">Dark/Light colour Predection</div>
+        <script src="https://unpkg.com/brain.js@1.2.6/browser.min.js"></script>
+        <script>
+        function hexToRgb(hex) {
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: Math.round(parseInt(result[1], 16) /2.55) /100,
+                    g: Math.round(parseInt(result[2], 16) /2.55) /100,
+                    b: Math.round(parseInt(result[3], 16) /2.55) /100
+                } : null;
+            }
+        </script>
+        <script>                        
+            const input = document.querySelector("input");
+            const example = document.querySelector("#example");
+            input.addEventListener("change", (e) => {
+                const rgb = hexToRgb(e.target.value);
+                const network = new brain.NeuralNetwork()
+                console.log(rgb)
+                network.train([
+                    { input: { r: 0.62, g: 0.72, b: 0.88 }, output: { light: 1 } },
+                    { input: { r: 0.1, g: 0.84, b: 0.72 }, output: { light: 1 } },
+                    { input: { r: 0.33, g: 0.24, b: 0.29 }, output: { dark: 1 } },
+                    { input: { r: 0.74, g: 0.78, b: 0.86 }, output: { light: 1 } },
+                    { input: { r: 0.31, g: 0.35, b: 0.41 }, output: { dark: 1 } },
+                    { input: { r: 1.06, g: 1.49, b: 1.43 }, output: { dark: 1 } },
+                    { input: { r: 2.36, g: 2.55, b: 2.55 }, output: { light: 1}},
+                    { input: { r: 0.9, g: 1.58, b: 1.56 }, output: { dark: 1 } },
+                    { input: { r: 1.62, g: 1.08, b: 0.94 }, output: { dark: 1 } },
+                    { input: {r: 0.44, g: 0.34, b: 2.21}, output: { dark: 1 } },
+                    { input: { r: 0.01, g: 2.54, b: 2.22 }, output: { light: 1 } },
+                    { input: { r: 0.62, g: 1.93, b: 0.71 }, output: { dark: 1 } },                       
+                ])
+                const result = brain.likely( rgb, network )
+                console.log(result);
+                example.style.background = e.target.value
+            })
+        </script>
+    </body>
+</html
